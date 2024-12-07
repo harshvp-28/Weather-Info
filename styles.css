@@ -1,0 +1,340 @@
+*,*::after,*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+:root {
+    --colorDark1: #112D4E;
+    --colorDark2: #3F71AF;
+    --colorLight1: #DBE2EF;
+    --colorLight2: #F9F7F7;
+}
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    color: var(--colorLight1);
+    background-image: linear-gradient(150deg, darkblue 0%, pink 100%);
+}
+.tab.current-tab {
+    background-color: rgba(219, 226, 239, 0.5);
+    border-radius: 4px;
+}
+.form-container.active {
+    scale: 1;
+    opacity: 1;
+    display: flex;
+}
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 20px;
+}
+.tab-container {
+    width: 90%;
+    max-width: 550px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 3rem;
+
+}
+.tab{
+    cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: 1.75px;
+    padding: 5px 8px;
+}
+
+.weather-container {
+    
+    margin-block: 4rem;
+}
+.btn {
+    all: unset;
+    text-transform: uppercase;
+    background-color:var(--colorDark2) ;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 30px;
+}
+.sub-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.grant-loacation-container {
+    display: none;
+}
+.grant-loacation-container.active {
+    display: flex;
+}
+
+.grant-loacation-container img {
+    margin-bottom: 2rem;
+
+}
+.grant-loacation-container p:first-of-type {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.grant-loacation-container p:last-of-type {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 0.75rem;
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.75px;
+}
+.loading-container {
+    display: none;
+
+}
+.loading-container.active {
+    display: flex;
+}
+.loading-container p {
+    text-transform: uppercase;
+}
+.user-info-container {
+    display: none;
+}
+.user-info-container.active {
+    display: flex;
+    
+}
+.name {
+    display: flex;
+    align-items: center;
+    gap: 0 0.5rem;
+    margin-bottom: 1rem;
+
+}
+.user-info-container p {
+    font-size: 1.4rem;
+    font-weight: 200;
+}
+.user-info-container img
+ {
+    height: 80px;
+    width: 80px;
+ }.name p {
+    font-size: 2.2rem;
+
+}
+.name img {
+    width: 35px;
+    height: 30px;
+    object-fit: contain;
+}
+.user-info-container p[data-temp] {
+    font-size: 2.8rem;
+    font-weight: 700;
+}
+.parameter-container {
+    width: 90%;
+    display: flex;
+    gap: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+
+}
+.parameter {
+    width: 30%;
+    max-width: 200px;
+    background-color: rgba(219, 226, 239, 0.5);
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px 0;
+    align-items: center;
+}
+.parameter img {
+    width: 50px;
+    height: 50px;
+}
+.parameter p:first-of-type {
+    font-size: 1.2 rem;
+    text-transform: uppercase;
+    font-weight: 600; 
+}
+.parameter p:last-of-type {
+    font-size: 1.4rem;
+    font-weight: 200;
+}
+.form-container {
+    display: none;
+    width: 90%;
+    max-width: 550px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    gap: 0 10px;
+    margin-bottom: 3rem;
+
+}
+
+.form-container.active {
+    display: flex;
+}
+.form-container input {
+    all: unset;
+    width: calc(100% - 80px);
+    height: 40px;
+    padding: 0 20px;
+    background-color: rgba(219, 226, 239, 0.5);
+    border-radius: 10px;
+}
+.form-container input::placeholder {
+    color: rgba(219, 226, 239, 0.5);
+}
+.form-container input:focus {
+    outline: 3px solid rgba(219, 226, 239, 0.5);
+}
+.form-container button {
+    padding: unset;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+}
+
+
+@media (max-width: 768px) {
+    :root {
+        --colorDark1: #112D4E;
+        --colorDark2: #3F71AF;
+        --colorLight1: #DBE2EF;
+        --colorLight2: #F9F7F7;
+    }
+
+    .wrapper {
+        padding: 10px;
+        background-image: linear-gradient(150deg, darkblue 0%, pink 100%);
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        padding: 10px 0;
+    }
+
+    .tab-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tab {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        margin: 5px 0;
+    }
+
+    .weather-container {
+        width: 100%;
+        padding: 0 10px; /* Add padding to avoid edge clipping */
+        overflow: hidden; /* Prevent horizontal overflow */
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 8px 20px;
+    }
+
+    .sub-container {
+        padding: 10px;
+    }
+
+    .grant-loacation-container img,
+    .loading-container img,
+    .user-info-container img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .grant-loacation-container p:first-of-type {
+        font-size: 1.2rem;
+    }
+
+    .grant-loacation-container p:last-of-type {
+        font-size: 0.8rem;
+    }
+
+    .name p {
+        font-size: 1.5rem;
+    }
+
+    .user-info-container p[data-temp] {
+        font-size: 2rem;
+    }
+
+    /* .parameter-container {
+        flex-direction: column;
+        gap: 10px 0;
+    } */
+
+    /* .parameter {
+        width: 100%;
+        max-width: none;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    } */
+    .parameter-container {
+        margin-top: 1rem; /* Reduce space above the parameters */
+        gap: 5px; /* Minimize gap between parameter blocks */
+        padding: 0; /* Remove padding to save space */
+    }
+
+    .parameter {
+        padding: 0.5rem; /* Reduce padding inside each block */
+        margin: 2px 0; /* Decrease margin between blocks */
+    }
+    .parameter img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .parameter p:first-of-type {
+        font-size: 1rem;
+    }
+
+    .parameter p:last-of-type {
+        font-size: 1.2rem;
+    }
+
+    .form-container {
+        flex-direction: column;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .form-container input {
+        width: 100%;
+        margin-bottom: 10px;
+        height: 40px;
+    }
+
+    /* .form-container button {
+        width: 100%;
+        height: 40px;
+        font-size: 0.9rem;
+    } */
+    .form-container button {
+        width: auto; 
+        height: 40px;
+        padding: 0 px; 
+        border-radius: px 
+    }
+
+    .error-container {
+        font-size: 0.9rem;
+        padding: 5px;
+    }
+}

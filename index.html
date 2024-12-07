@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h1>WEATHER APP</h1>
+        <div class="tab-container">
+            <p class="tab" data-userWeather>Your Weather</p>
+            <p class="tab" data-searchWeather>Search Weather</p>
+            
+        </div>
+        <div class="weather-container">
+            <!-- grant location -->
+            <div class="sub-container grant-loacation-container">
+                <img src="images.jpg" width="80" height="80" loading="lazy">
+                <p>Grant Location Access</p>
+                <p>Allow Access to Get Waether Information</p>
+                <button class="btn" data-grantAccess>Grant Access</button>
+            </div>
+
+            <!-- search form -->
+            <form class="form-container" data-searchForm>
+                <input placeholder="Search for City..."  data-searchInput>
+                <button class="btn" type="submit">
+                    <img src="search.webp" width="40" height="40" loading="lazy">
+                </button>
+            </form>
+
+            <!-- loading image -->
+            <div class="loading-container sub-container">
+                <img src="Animation - 1733506155708.gif" width="150" height="150" loading="lazy">
+                <p>Loading</p>
+            </div>
+
+            <!-- weather info -->
+            <div class="sub-container user-info-container">
+                <div class="name">
+                    <p data-cityName></p>
+                    <img data-countryIcon>
+                </div>
+
+                <p data-weatherDesc></p>
+
+                <img data-weatherIcon>
+
+                <p data-temp></p>
+
+                <div class="parameter-container">
+                    <div class="parameter">
+                        <img src="wind.jpg" width="50" height="50">
+                        <p>Windspeed</p>
+                        <p data-windspeed></p>
+                    </div>
+
+                    <div class="parameter">
+                        <img src="humidity.png" width="30" height="50">
+                        <p>Humidity</p>
+                        <p data-humidity></p>
+                    </div>
+
+                    <div class="parameter">
+                        <img src="cloud.jpg" width="50" height="50">
+                        <p>Clouds</p>
+                        <p data-clouds></p> 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
