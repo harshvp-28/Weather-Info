@@ -418,3 +418,63 @@ h1 {
 .forecast-temp .min {
     color: #4ECDC4;
 }
+/* Ensure the body does not overflow */
+body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Make the main container scrollable if content exceeds the viewport */
+.weather-container {
+    max-height: calc(100vh - 40px); /* Subtracting some space for padding or margins */
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-width: thin; /* For modern browsers */
+    scrollbar-color: var(--primary) rgba(0, 0, 0, 0.1); /* Customize scrollbar color */
+}
+
+/* For webkit-based browsers like Chrome, Safari */
+.weather-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.weather-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: var(--radius);
+}
+
+.weather-container::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure the search results fit within the container */
+.user-info-container {
+    max-width: 100%;
+    word-wrap: break-word; /* Prevent content from spilling out */
+    overflow: hidden;
+}
+
+/* Adjust the forecast container for smaller screens */
+.forecast-container {
+    overflow-x: auto; /* Enable horizontal scrolling for small screens */
+}
+.weather-container {
+    max-height: 80vh; /* Set a maximum height relative to the viewport */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* Customize Scrollbar */
+.weather-container::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+}
+
+.weather-container::-webkit-scrollbar-thumb {
+    background: var(--primary); /* Set the color of the scrollbar thumb */
+    border-radius: var(--radius); /* Rounded corners for the scrollbar thumb */
+}
+
+.weather-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); /* Set the track background color */
+}
