@@ -34,23 +34,25 @@ let currentTab = userTab;
 currentTab.classList.add("current-tab");
 getFromSessionStorage();
 function switchTab(tab) {
-    if(tab != currentTab) {
+    if (tab !== currentTab) {
         currentTab.classList.remove("current-tab");
         currentTab = tab;
         tab.classList.add("current-tab");
 
-        if(!searchForm.classList.contains("active")) {
+        if (tab === searchTab) {
+            // Display the search form and hide others
+            searchForm.classList.add("active");
             userInfoContainer.classList.remove("active");
             grantAccessContainer.classList.remove("active");
-            searchForm.classList.add("active"); 
-
-        }else{
+        } else {
+            // Display user weather container
             searchForm.classList.remove("active");
-            userInfoContainer.classList.remove("active");
-            getFromSessionStorage();  
+            getFromSessionStorage(); // Load user weather or show grant access
         }
     }
 }
+
+
 function getFromSessionStorage() {
     const localCoordinates = sessionStorage.getItem("user-coordinates");
     if(!localCoordinates) {
@@ -60,21 +62,38 @@ function getFromSessionStorage() {
         fetchUserWeatherInfo(coordinates);
     }
 }
+async function fetchWeatherData(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            // Handle non-200 responses
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Fetch error:", error);
+        displayErrorMessage("Failed to fetch weather data. Please try again later.");
+        throw error; // Rethrow for higher-level handling if needed
+    }
+}
 async function fetchUserWeatherInfo(coordinates) {
-    const {lat,lon} = coordinates;
+    const { lat, lon } = coordinates;
     grantAccessContainer.classList.remove("active");
     loadingScreen.classList.add("active");
+
     try {
-        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
-        const data = await res.json();
+        const data = await fetchWeatherData(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+        );
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
         renderWeatherInfo(data);
-    }
-    catch(err) {
+    } catch (err) {
         loadingScreen.classList.remove("active");
     }
 }
+
+
 function renderWeatherInfo(data) {
     const cityName = document.querySelector("[data-cityName]");
     const countryIcon = document.querySelector("[data-countryIcon]");
@@ -93,27 +112,36 @@ function renderWeatherInfo(data) {
     windspeed.innerText = `${data?.wind?.speed} m/s`;
     humidity.innerText = `${data?.main?.humidity} %`;
     cloudiness.innerText = `${data?.clouds?.all} %`;
-
+    const condition = data?.weather?.[0]?.description.toLowerCase();
+    setDynamicBackground(condition);
 
 }
-userTab.addEventListener('click',() => {
+userTab.addEventListener("click", () => {
     switchTab(userTab);
 });
 
-searchTab.addEventListener('click',() => {
+searchTab.addEventListener("click", () => {
     switchTab(searchTab);
 });
+
 function getLocation() {
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition); 
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, () => {
+            alert("Location access denied. Please enable location services.");
+        });
+    } else {
+        alert("Geolocation is not supported by this browser.");
     }
 }
+
 function showPosition(position) {
     const userCoordinates = {
         lat: position.coords.latitude,
         lon: position.coords.longitude,
-    }
-    sessionStorage.setItem("user-coordinates",JSON.stringify(userCoordinates));
+    };
+    sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
+    grantAccessContainer.classList.remove("active");
+    loadingScreen.classList.add("active");
     fetchUserWeatherInfo(userCoordinates);
 }
 const grantAccessButton  = document.querySelector("[data-grantAccess]");
@@ -136,27 +164,18 @@ async function fetchSearchWeatherInfo(city) {
     grantAccessContainer.classList.remove("active");
 
     try {
-        const response =  await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
-        if (response.status === 200) {
-            loadingScreen.classList.remove("active");
-            userInfoContainer.classList.add("active");
-            renderWeatherInfo(data);
-        } else {
-            loadingScreen.classList.remove("active");
-            displayErrorMessage(data.message || "City not found");
-        }
-    }
-    catch(err) {
+        const data = await fetchWeatherData(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+        );
         loadingScreen.classList.remove("active");
-        userInfoContainer.classList.remove("active"); 
-        displayErrorMessage("Unable to fetch weather information. Please try again.");
-
+        userInfoContainer.classList.add("active");
+        renderWeatherInfo(data);
+    } catch (err) {
+        loadingScreen.classList.remove("active");
     }
 }
 function displayErrorMessage(message) {
     const errorContainer = document.querySelector(".error-container");
-
     if (!errorContainer) {
         const newErrorContainer = document.createElement("div");
         newErrorContainer.className = "error-container";
@@ -166,31 +185,8 @@ function displayErrorMessage(message) {
         newErrorContainer.textContent = message;
 
         const userInfoContainer = document.querySelector(".user-info-container");
-        userInfoContainer.appendChild(errorContainer);
-
-        
+        userInfoContainer.appendChild(newErrorContainer);
+    } else {
+        errorContainer.textContent = message; // Update existing error message
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
