@@ -40,12 +40,16 @@ function switchTab(tab) {
         tab.classList.add("current-tab");
 
         if (tab === searchTab) {
-            // Display the search form and hide others
+            // Clear any existing weather data and show only the search form
             searchForm.classList.add("active");
             userInfoContainer.classList.remove("active");
             grantAccessContainer.classList.remove("active");
+            loadingScreen.classList.remove("active");
+            
+            // Clear the search input field
+            searchInput.value = "";
         } else {
-            // Display user weather container
+            // Switch back to user weather tab
             searchForm.classList.remove("active");
             getFromSessionStorage(); // Load user weather or show grant access
         }
@@ -112,8 +116,17 @@ function renderWeatherInfo(data) {
     windspeed.innerText = `${data?.wind?.speed} m/s`;
     humidity.innerText = `${data?.main?.humidity} %`;
     cloudiness.innerText = `${data?.clouds?.all} %`;
-    const condition = data?.weather?.[0]?.description.toLowerCase();
-    setDynamicBackground(condition);
+     userInfoContainer.scrollTop = 0;
+    
+    // Add a small timeout to allow DOM to update before checking
+    setTimeout(() => {
+        if (userInfoContainer.scrollHeight > userInfoContainer.clientHeight) {
+            // If content overflows, adjust the container height
+            userInfoContainer.style.maxHeight = 'none';
+            userInfoContainer.parentElement.style.maxHeight = '90vh';
+        }
+    }, 100);
+    
 
 }
 userTab.addEventListener("click", () => {
@@ -172,8 +185,11 @@ async function fetchSearchWeatherInfo(city) {
         renderWeatherInfo(data);
     } catch (err) {
         loadingScreen.classList.remove("active");
+        // Clear any previous weather data if search fails
+        userInfoContainer.classList.remove("active");
     }
 }
+
 function displayErrorMessage(message) {
     const errorContainer = document.querySelector(".error-container");
     if (!errorContainer) {
